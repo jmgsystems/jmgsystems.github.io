@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMS Consent | JMG Systems</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --brand-cyan: #4fc3c9;
+            --brand-dark: #2c3e50;
+            --brand-light: #f8f9fa;
+            --brand-gray: #6c757d;
+            --brand-white: #ffffff;
+            --text-primary: #333333;
+            --text-secondary: #555555;
+            --success-green: #28a745;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: var(--text-primary);
+            background: var(--brand-white);
+            line-height: 1.6;
+        }
+
+        /* ── Nav ── */
+        .site-header {
+            background: var(--brand-white);
+            border-bottom: 1px solid #e9ecef;
+            padding: 12px 0;
+        }
+        .nav-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nav-logo img {
+            height: 48px;
+        }
+        .nav-logo span {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--brand-dark);
+            letter-spacing: -0.5px;
+        }
+        .nav-links { display: flex; gap: 28px; list-style: none; }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--brand-gray);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--brand-cyan); }
+
+        /* ── Hero banner ── */
+        .page-hero {
+            background: linear-gradient(135deg, #4fc3c9 0%, #3aa8ae 100%);
+            color: var(--brand-white);
+            text-align: center;
+            padding: 48px 24px;
+        }
+        .page-hero h1 {
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+        .page-hero p {
+            margin-top: 8px;
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* ── Main content ── */
+        .content-wrapper {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 48px 24px 80px;
+        }
+
+        .intro-text {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            line-height: 1.7;
+        }
+
+        /* ── Form ── */
+        .consent-form {
+            background: var(--brand-light);
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 32px;
+        }
+        .consent-form h2 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--brand-dark);
+            margin-bottom: 4px;
+        }
+        .consent-form .form-subtitle {
+            font-size: 0.85rem;
+            color: var(--brand-gray);
+            margin-bottom: 24px;
+        }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--brand-dark);
+            margin-bottom: 6px;
+        }
+        .form-group label .required { color: #dc3545; }
+
+        .form-group input[type="text"],
+        .form-group input[type="tel"],
+        .form-group input[type="email"] {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--brand-cyan);
+            box-shadow: 0 0 0 3px rgba(79, 195, 201, 0.15);
+        }
+
+        /* ── Consent checkbox ── */
+        .consent-checkbox-wrapper {
+            margin: 24px 0;
+            padding: 16px;
+            background: var(--brand-white);
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+        }
+        .consent-checkbox-wrapper label {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            cursor: pointer;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        .consent-checkbox-wrapper input[type="checkbox"] {
+            flex-shrink: 0;
+            margin-top: 3px;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--brand-cyan);
+        }
+        .consent-checkbox-wrapper a {
+            color: var(--brand-cyan);
+            text-decoration: underline;
+        }
+
+        /* ── Submit button ── */
+        .submit-btn {
+            display: inline-block;
+            background: var(--brand-cyan);
+            color: var(--brand-white);
+            border: none;
+            padding: 12px 32px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            font-family: inherit;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+        .submit-btn:hover { background: #3aa8ae; }
+        .submit-btn:active { transform: scale(0.98); }
+        .submit-btn:disabled {
+            background: #adb5bd;
+            cursor: not-allowed;
+        }
+
+        /* ── Validation ── */
+        .field-error {
+            color: #dc3545;
+            font-size: 0.8rem;
+            margin-top: 4px;
+            display: none;
+        }
+        .form-group.has-error input {
+            border-color: #dc3545;
+        }
+        .form-group.has-error .field-error {
+            display: block;
+        }
+
+        /* ── Success message ── */
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 40px 24px;
+        }
+        .success-message .check-icon {
+            width: 64px;
+            height: 64px;
+            background: var(--success-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+        .success-message .check-icon svg {
+            width: 32px;
+            height: 32px;
+            fill: white;
+        }
+        .success-message h2 {
+            font-size: 1.4rem;
+            color: var(--brand-dark);
+            margin-bottom: 12px;
+        }
+        .success-message p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            max-width: 440px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* ── Footer ── */
+        .site-footer {
+            background: var(--brand-dark);
+            color: rgba(255,255,255,0.6);
+            text-align: center;
+            padding: 24px;
+            font-size: 0.8rem;
+        }
+        .site-footer a {
+            color: var(--brand-cyan);
+            text-decoration: none;
+        }
+
+        /* ── Mobile ── */
+        @media (max-width: 600px) {
+            .nav-links { display: none; }
+            .consent-form { padding: 20px; }
+            .page-hero h1 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <header class="site-header">
+        <div class="nav-inner">
+            <a href="https://jmg.systems/" class="nav-logo">
+                <span>JMG Systems</span>
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="https://jmg.systems/">Home</a></li>
+                    <li><a href="https://jmg.systems/about/">About</a></li>
+                    <li><a href="https://jmg.systems/consulting-services/">Services</a></li>
+                    <li><a href="https://jmg.systems/contact/">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <div class="page-hero">
+        <h1>SMS Communications Consent</h1>
+        <p>JMG Systems — IT Support &amp; Consulting</p>
+    </div>
+
+    <!-- Main content -->
+    <div class="content-wrapper">
+
+        <p class="intro-text">
+            JMG Systems uses text messaging (SMS) to provide conversational IT support to our business clients. This includes troubleshooting assistance, service follow-ups, scheduling, and operational communications. We do not send automated marketing messages. By providing your mobile phone number below, you can opt in to receive these communications.
+        </p>
+
+        <!-- Consent form -->
+        <div class="consent-form" id="consentFormWrapper">
+
+            <h2>Opt In to SMS Messages</h2>
+            <p class="form-subtitle">Fields marked with <span style="color:#dc3545;">*</span> are required.</p>
+
+            <div class="form-group" id="nameGroup">
+                <label for="fullName">Full Name <span class="required">*</span></label>
+                <input type="text" id="fullName" name="fullName" placeholder="Jane Smith" autocomplete="name">
+                <div class="field-error" id="nameError">Please enter your name.</div>
+            </div>
+
+            <div class="form-group" id="companyGroup">
+                <label for="company">Company Name <span class="required">*</span></label>
+                <input type="text" id="company" name="company" placeholder="Acme Corp">
+                <div class="field-error" id="companyError">Please enter your company name.</div>
+            </div>
+
+            <div class="form-group" id="emailGroup">
+                <label for="email">Email Address <span class="required">*</span></label>
+                <input type="email" id="email" name="email" placeholder="jane@example.com" autocomplete="email">
+                <div class="field-error" id="emailError">Please enter a valid email address.</div>
+            </div>
+
+            <div class="form-group" id="phoneGroup">
+                <label for="phone">Mobile Phone Number <span class="required">*</span></label>
+                <input type="tel" id="phone" name="phone" placeholder="(814) 555-1234" autocomplete="tel">
+                <div class="field-error" id="phoneError">Please enter a valid US phone number.</div>
+            </div>
+
+            <!-- SMS Consent Checkbox — MUST remain optional per Dialpad/CTIA rules -->
+            <div class="consent-checkbox-wrapper">
+                <label>
+                    <input type="checkbox" id="smsConsent" name="smsConsent">
+                    <span>
+                        I agree to receive text messages from <strong>JMG Systems</strong> regarding IT support, service updates, and operational communications.
+                        You may opt out at any time by replying <strong>STOP</strong>, or get more information by replying <strong>HELP</strong>.
+                        Message frequency varies. Message and data rates may apply.
+                        You may review our <a href="/privacy.html" target="_blank">Privacy Policy</a> to learn how your data is used.
+                    </span>
+                </label>
+            </div>
+
+            <button type="button" class="submit-btn" id="submitBtn" onclick="handleSubmit()">Submit</button>
+
+        </div>
+
+        <!-- Success message (shown after submission) -->
+        <div class="success-message" id="successMessage">
+            <div class="check-icon">
+                <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+            </div>
+            <h2>You're All Set</h2>
+            <p>
+                Thank you for opting in to SMS communications from <strong>JMG Systems</strong>.
+                You'll receive a confirmation text shortly. Remember, you can reply <strong>STOP</strong>
+                at any time to unsubscribe, or <strong>HELP</strong> for assistance.
+            </p>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2025 JMG Systems &nbsp;|&nbsp; <a href="/privacy.html">Privacy Policy</a> &nbsp;|&nbsp; <a href="/terms.html">SMS Terms &amp; Conditions</a></p>
+    </footer>
+
+    <script>
+        // ── Phone formatting ──
+        const phoneInput = document.getElementById('phone');
+        phoneInput.addEventListener('input', function(e) {
+            let val = e.target.value.replace(/\D/g, '');
+            if (val.length > 10) val = val.slice(0, 10);
+            if (val.length >= 7) {
+                e.target.value = '(' + val.slice(0,3) + ') ' + val.slice(3,6) + '-' + val.slice(6);
+            } else if (val.length >= 4) {
+                e.target.value = '(' + val.slice(0,3) + ') ' + val.slice(3);
+            } else if (val.length > 0) {
+                e.target.value = '(' + val;
+            }
+        });
+
+        // ── Validation ──
+        function clearErrors() {
+            document.querySelectorAll('.form-group').forEach(g => g.classList.remove('has-error'));
+        }
+
+        function validateForm() {
+            clearErrors();
+            let valid = true;
+
+            const name = document.getElementById('fullName').value.trim();
+            const company = document.getElementById('company').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.replace(/\D/g, '');
+
+            if (!name) {
+                document.getElementById('nameGroup').classList.add('has-error');
+                valid = false;
+            }
+            if (!company) {
+                document.getElementById('companyGroup').classList.add('has-error');
+                valid = false;
+            }
+            if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                document.getElementById('emailGroup').classList.add('has-error');
+                valid = false;
+            }
+            if (phone.length !== 10) {
+                document.getElementById('phoneGroup').classList.add('has-error');
+                valid = false;
+            }
+
+            return valid;
+        }
+
+        // ── Submit handler ──
+        // MOCKUP: Currently shows success without backend submission.
+        // To wire up Formspree, replace the body of handleSubmit() with:
+        //
+        //   fetch('https://formspree.io/f/YOUR_FORM_ID', {
+        //       method: 'POST',
+        //       headers: { 'Content-Type': 'application/json' },
+        //       body: JSON.stringify({
+        //           name: document.getElementById('fullName').value,
+        //           company: document.getElementById('company').value,
+        //           email: document.getElementById('email').value,
+        //           phone: document.getElementById('phone').value,
+        //           smsConsent: document.getElementById('smsConsent').checked
+        //       })
+        //   })
+        //   .then(r => { if (r.ok) showSuccess(); else alert('Submission failed. Please try again.'); })
+        //   .catch(() => alert('Network error. Please try again.'));
+        //
+        function handleSubmit() {
+            if (!validateForm()) return;
+
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.textContent = 'Submitting…';
+
+            // Simulate network delay for mockup
+            setTimeout(showSuccess, 800);
+        }
+
+        function showSuccess() {
+            document.getElementById('consentFormWrapper').style.display = 'none';
+            const success = document.getElementById('successMessage');
+            success.style.display = 'block';
+            success.style.opacity = 0;
+            requestAnimationFrame(() => {
+                success.style.transition = 'opacity 0.4s ease';
+                success.style.opacity = 1;
+            });
+        }
+    </script>
+
+</body>
+</html>
