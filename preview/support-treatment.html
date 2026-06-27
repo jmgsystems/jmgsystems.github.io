@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>JMG Systems — Get IT Help</title>
+  <link rel="icon" href="/assets/jmg-logo-inverse.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --paper:#F3EFE6; --ink:#0F1B2C; --bp700:#1E3A5F; --bp500:#3A6FA0;
+      --bp300:#9FB9D4; --bp100:#D9E4F0; --ochre:#C88A2C; --slate:#5E6A7A;
+      --grid:rgba(30,58,95,.055);
+    }
+    *{box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{
+      margin:0; min-height:100vh; color:var(--ink);
+      font-family:"IBM Plex Sans",system-ui,sans-serif; font-weight:400;
+      background-color:var(--paper);
+      background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+      background-size:30px 30px;
+      display:flex; flex-direction:column;
+    }
+    ::selection{background:var(--bp100);}
+
+    /* header */
+    header{
+      position:sticky; top:0; z-index:5; background:var(--bp700);
+      border-bottom:1px solid var(--ink); padding:12px 24px;
+      display:flex; align-items:center; gap:14px;
+    }
+    header img{height:28px; width:auto; display:block;}
+    header .eyebrow{font-family:"IBM Plex Mono",monospace; font-weight:500; letter-spacing:.16em; text-transform:uppercase; font-size:10.5px; color:var(--bp300);}
+
+    main{flex:1; width:100%; max-width:680px; margin:0 auto; padding:40px 24px 64px;}
+
+    .eyebrow-mono{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--bp500);}
+    h1{font-family:"Fraunces",Georgia,serif; font-weight:600; font-size:34px; line-height:1.08; letter-spacing:-.01em; margin:10px 0 8px;}
+    .lede{color:var(--slate); font-size:16px; line-height:1.55; margin:0 0 14px; max-width:54ch;}
+    .whoami{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--slate); letter-spacing:.03em; margin:0 0 32px;
+      display:inline-flex; align-items:center; gap:8px;}
+    .whoami .dot{width:6px; height:6px; background:var(--ochre); display:inline-block;}
+    .whoami b{color:var(--ink); font-weight:600;}
+
+    form{display:flex; flex-direction:column; gap:26px; animation:rise .5s cubic-bezier(.2,.7,.2,1) both;}
+    @keyframes rise{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:none;}}
+    .field{position:relative;}
+    label{display:block; font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink); margin-bottom:8px;}
+    label .opt{color:var(--slate); font-weight:400;}
+    .help{font-family:"IBM Plex Sans"; font-size:12.5px; color:var(--slate); text-transform:none; letter-spacing:0; font-weight:400; margin-top:4px;}
+    .row{display:flex; gap:16px; flex-wrap:wrap;}
+    .row>.field{flex:1 1 200px;}
+    /* keep controls in a row aligned even when a label wraps to two lines */
+    .row>.field>label{min-height:2.8em; line-height:1.4;}
+    #email{text-overflow:ellipsis;}
+
+    input[type=text],input[type=email],input[type=tel],textarea,select{
+      width:100%; font-family:inherit; font-size:15px; color:var(--ink);
+      background:#fffdf8; border:1px solid var(--ink); border-radius:0; padding:12px 14px;
+      transition:border-color .15s ease, box-shadow .15s ease, background .15s ease; outline:none;
+    }
+    textarea{min-height:140px; resize:vertical; line-height:1.5;}
+    input:focus,textarea:focus,select:focus{border-color:var(--bp500); box-shadow:inset 0 -2px 0 0 var(--bp500); background:#fff;}
+    input:read-only{background:#ece6d9; color:var(--slate); border-style:dashed;}
+    input:read-only:focus{box-shadow:none; border-color:var(--ink);}
+    select{appearance:none; background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2 4l4 4 4-4' fill='none' stroke='%231E3A5F' stroke-width='1.5'/></svg>"); background-repeat:no-repeat; background-position:right 14px center; padding-right:36px;}
+    input[aria-invalid=true],textarea[aria-invalid=true]{border-color:var(--ochre); box-shadow:inset 0 -2px 0 0 var(--ochre);}
+    .err{color:#b06a12; font-size:12.5px; margin-top:6px; min-height:0; font-weight:500;}
+
+    /* dropzone */
+    .dropzone{border:1.5px dashed var(--bp500); background:#fffdf8; padding:26px 18px; text-align:center; color:var(--slate); font-size:14px; cursor:pointer; transition:background .15s ease, border-color .15s ease;}
+    .dropzone .dz-icon{display:block; margin:0 auto 8px; color:var(--bp500);}
+    .dropzone strong{color:var(--ink); font-weight:600;}
+    .dropzone .browse{color:var(--bp500); text-decoration:underline; text-underline-offset:2px; cursor:pointer;}
+    .dropzone.drag{background:var(--bp100); border-color:var(--bp700); color:var(--ink); transform:scale(1.005);}
+    #filelist{list-style:none; margin:12px 0 0; padding:0; display:flex; flex-direction:column; gap:8px;}
+    #filelist li{display:flex; align-items:center; gap:12px; font-size:13px; background:var(--bp100); border:1px solid var(--bp300); padding:8px 12px; animation:rise .25s ease both;}
+    #filelist li .ic{color:var(--bp700); flex:0 0 auto;}
+    #filelist li .nm{flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--ink);}
+    #filelist li .sz{color:var(--slate); font-family:"IBM Plex Mono",monospace; font-size:11px;}
+    #filelist li .rm{cursor:pointer; color:var(--ochre); font-weight:600; border:0; background:none; font-size:16px; line-height:1; padding:0 2px;}
+
+    /* submit */
+    .actions{display:flex; align-items:center; gap:16px; margin-top:4px;}
+    button.submit{font-family:"IBM Plex Mono",monospace; font-weight:600; letter-spacing:.1em; text-transform:uppercase; font-size:13px; background:var(--bp700); color:var(--paper); border:1px solid var(--ink); border-radius:0; padding:15px 28px; cursor:pointer; transition:background .15s ease, transform .08s ease; display:inline-flex; align-items:center; gap:10px;}
+    button.submit:hover{background:var(--ink);}
+    button.submit:active{transform:translateY(1px);}
+    button.submit:disabled{opacity:.55; cursor:default;}
+    .spinner{width:14px; height:14px; border:2px solid var(--bp300); border-top-color:var(--paper); border-radius:50%; animation:spin .7s linear infinite; display:none;}
+    button.submit.loading .spinner{display:inline-block;}
+    @keyframes spin{to{transform:rotate(360deg);}}
+    .reassure{font-size:12.5px; color:var(--slate);}
+
+    /* success view */
+    #chooser{animation:rise .4s ease both;}
+    .choices{display:flex; flex-direction:column; gap:16px; margin-top:30px;}
+    .choice{position:relative; display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:20px; text-align:left; text-decoration:none; background:#fffdf8; border:1px solid var(--ink); border-radius:0; padding:22px 24px; cursor:pointer; font-family:inherit; transition:background .15s ease, transform .06s ease;}
+    .choice:hover{background:var(--bp100);}
+    .choice:active{transform:translateY(1px);}
+    /* drafting registration ticks — the blueprint signature */
+    .choice::before,.choice::after{content:""; position:absolute; width:9px; height:9px; pointer-events:none;}
+    .choice::before{top:7px; left:7px; border-top:1px solid var(--bp500); border-left:1px solid var(--bp500);}
+    .choice::after{bottom:7px; right:7px; border-bottom:1px solid var(--bp500); border-right:1px solid var(--bp500);}
+    .choice-ic{display:flex; color:var(--bp700);}
+    .choice-ic svg{width:26px; height:26px;}
+    .choice-tx strong{display:block; font-family:"Fraunces",serif; font-weight:600; font-size:19px; color:var(--ink); margin-bottom:2px;}
+    .choice-tx span{display:block; font-size:13.5px; color:var(--slate); line-height:1.45;}
+    .choice-arrow{font-family:"IBM Plex Mono",monospace; font-size:20px; color:var(--bp500); transition:transform .15s ease;}
+    .choice:hover .choice-arrow{transform:translateX(4px);}
+    /* primary card: blueprint-filled, leads to the common action */
+    .choice-primary{background:var(--bp700); border-color:var(--ink);}
+    .choice-primary:hover{background:var(--bp500);}
+    .choice-primary .choice-ic{color:var(--paper);}
+    .choice-primary .choice-tx strong{color:var(--paper);}
+    .choice-primary .choice-tx span{color:var(--bp100);}
+    .choice-primary .choice-arrow{color:var(--paper);}
+    .choice-primary::before,.choice-primary::after{border-color:var(--bp300);}
+    .backlink{display:block; width:fit-content; font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--bp500); background:none; border:0; cursor:pointer; padding:0; margin:0 0 18px;}
+    .backlink:hover{color:var(--ink);}
+    #success{display:none; text-align:center; padding:24px 0 8px; animation:rise .4s ease both;}
+    #success.show{display:block;}
+    .seal{position:relative; width:132px; height:132px; margin:8px auto 26px;}
+    .seal svg{width:132px; height:132px; overflow:visible;}
+    .seal .frame{fill:none; stroke:var(--bp700); stroke-width:3; stroke-dasharray:520; stroke-dashoffset:520; animation:draw .55s cubic-bezier(.5,.1,.3,1) .05s forwards;}
+    .seal .check{fill:none; stroke:var(--ochre); stroke-width:6; stroke-linecap:square; stroke-linejoin:miter; stroke-dasharray:90; stroke-dashoffset:90; animation:draw .4s cubic-bezier(.5,.1,.3,1) .55s forwards;}
+    @keyframes draw{to{stroke-dashoffset:0;}}
+    .confetti{position:absolute; inset:0; pointer-events:none;}
+    .confetti i{position:absolute; left:50%; top:50%; width:9px; height:9px; opacity:0; transform:translate(-50%,-50%);}
+    #success.show .confetti i{animation:burst .9s cubic-bezier(.2,.7,.3,1) .62s forwards;}
+    @keyframes burst{0%{opacity:0; transform:translate(-50%,-50%) scale(.4) rotate(0);}15%{opacity:1;}100%{opacity:0; transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(1) rotate(var(--rot));}}
+    #success h2{font-family:"Fraunces",serif; font-weight:600; font-size:30px; margin:0 0 4px; opacity:0; animation:rise .5s ease .7s both;}
+    #success .tk{font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:14px; letter-spacing:.12em; color:var(--bp500); opacity:0; animation:rise .5s ease .8s both;}
+    #success p{color:var(--slate); font-size:15px; line-height:1.55; max-width:46ch; margin:18px auto 0; opacity:0; animation:rise .5s ease .9s both;}
+    #success a.track{display:inline-block; margin-top:22px; font-family:"IBM Plex Mono",monospace; font-weight:600; letter-spacing:.08em; text-transform:uppercase; font-size:12px; color:var(--paper); background:var(--bp700); border:1px solid var(--ink); padding:13px 24px; text-decoration:none; opacity:0; animation:rise .5s ease 1s both; transition:background .15s ease;}
+    #success a.track:hover{background:var(--ink);}
+    #success .again{display:block; margin:20px auto 0; font-family:"IBM Plex Mono",monospace; font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--bp500); background:none; border:0; cursor:pointer; text-decoration:underline; text-underline-offset:3px; opacity:0; animation:rise .5s ease 1.15s both;}
+    #success .again:hover{color:var(--ink);}
+    #success .afterhours{display:none; max-width:44ch; margin:18px auto 0; padding:12px 16px; text-align:left; font-size:13.5px; line-height:1.55; color:var(--slate); border:1px solid var(--bp300); background:var(--bp100); opacity:0; animation:rise .5s ease 1.05s both;}
+    #success .afterhours.on{display:block;}
+    #success .afterhours b{color:var(--ink); font-weight:600;}
+    #fail{display:none; border:1px solid var(--ochre); background:#fbf1e0; padding:18px 20px; margin-top:8px;}
+    #fail.show{display:block;} #fail h2{font-family:"Fraunces",serif; font-size:20px; margin:0 0 8px;} #fail p{margin:0; color:var(--ink);}
+
+    footer{border-top:1px solid var(--bp300); padding:14px 24px; font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; color:var(--slate); text-transform:uppercase;}
+    @media (prefers-color-scheme: dark){body{color:var(--ink);}}
+    @media (max-width:560px){h1{font-size:27px;} main{padding:28px 18px 48px;}}
+    @media (prefers-reduced-motion: reduce){*{animation-duration:.001s!important;}}
+
+    /* ---- form sections (blueprint structure) ---- */
+    .fsection-h{display:flex; align-items:center; gap:14px; margin:38px 0 20px;}
+    .fsection-h .t{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink); font-weight:600; white-space:nowrap;}
+    .fsection-h .rule{flex:1; height:1px; background:var(--bp300);}
+    /* ---- preview chrome (mockup only) ---- */
+    .pv-ribbon{position:fixed; top:0; left:0; z-index:50; background:var(--ochre); color:#fff; font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; padding:4px 10px;}
+    .pv-toggle{position:fixed; top:9px; right:14px; z-index:50; font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase; background:var(--paper); color:var(--ink); border:1px solid var(--ink); padding:8px 14px; cursor:pointer;}
+    .mock-sep{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--bp500); border-top:1px dashed var(--bp300); margin:54px 0 6px; padding-top:12px;}
+    /* ---- dark theme ---- */
+    body.dark{ background-color:#0b1622; color:#e8eef6;
+      background-image:linear-gradient(rgba(159,185,212,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(159,185,212,.045) 1px,transparent 1px);}
+    body.dark h1, body.dark .choice-tx strong, body.dark label, body.dark .whoami b, body.dark .fsection-h .t{color:#eef3f9;}
+    body.dark .lede, body.dark .help, body.dark .whoami, body.dark .choice-tx span, body.dark .reassure, body.dark .mock-sep{color:#9db0c6;}
+    body.dark .eyebrow-mono, body.dark .choice-arrow, body.dark .backlink{color:#82a8d2;}
+    body.dark .fsection-h .rule{background:#2a3e57;}
+    body.dark footer{color:#7e90a6; border-top-color:#26384f;}
+    body.dark input,body.dark textarea,body.dark select{background:#16273d; color:#eef3f9; border-color:#3a4f68;}
+    body.dark input:focus,body.dark textarea:focus,body.dark select:focus{background:#1a2e47; border-color:#5e87b3; box-shadow:inset 0 -2px 0 0 #5e87b3;}
+    body.dark input:read-only{background:#101e30; color:#9db0c6; border-color:#3a4f68;}
+    body.dark select{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2 4l4 4 4-4' fill='none' stroke='%239FB9D4' stroke-width='1.5'/></svg>");}
+    body.dark .choice{background:#16273d; border-color:#3a4f68;}
+    body.dark .choice:hover{background:#1c3149;}
+    body.dark .choice-ic{color:#9fb9d4;}
+    body.dark .choice-primary{background:#2f5f93; border-color:#2f5f93;}
+    body.dark .choice-primary:hover{background:#3a6fa0;}
+    body.dark .choice-primary .choice-tx span{color:#cfe0f2;}
+    body.dark .choice::before,body.dark .choice::after{border-color:#5e87b3;}
+    body.dark .dropzone{background:#16273d; border-color:#5e87b3; color:#9db0c6;}
+    body.dark .dropzone strong{color:#eef3f9;}
+    body.dark #filelist li{background:#1a2c44; border-color:#3a4f68;}
+    body.dark #filelist li .nm{color:#eef3f9;}
+    body.dark button.submit{background:#2f5f93; border-color:#3a4f68; color:#eef3f9;}
+    body.dark button.submit:hover{background:#3a6fa0;}
+    body.dark #success h2{color:#eef3f9;} body.dark #success .tk{color:#82a8d2;} body.dark #success p{color:#9db0c6;}
+    body.dark .seal .frame{stroke:#9fb9d4;}
+    body.dark #success a.track{background:#2f5f93; border-color:#3a4f68; color:#eef3f9;}
+    body.dark .pv-toggle{background:#16273d; color:#eef3f9; border-color:#3a4f68;}
+    body.dark ::selection{background:#2f5f93;}
+  </style>
+</head>
+<body>
+  <div class="pv-ribbon">Preview — not the live page</div>
+  <button class="pv-toggle" id="themetoggle" type="button">Theme &middot; Light</button>
+  <header>
+    <img src="/assets/jmg-logo-inverse.png" alt="JMG Systems" />
+    <span class="eyebrow">IT Support</span>
+  </header>
+
+  <main>
+    <div id="chooser">
+      <span class="eyebrow-mono">JMG Systems &middot; Support</span>
+      <h1>How can we help?</h1>
+      <p class="whoami" id="whoami2"><span class="dot"></span> Signing you in&hellip;</p>
+      <div class="choices">
+        <button type="button" class="choice choice-primary" id="c-new">
+          <span class="choice-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"><path d="M13 3v5h5"/><path d="M13 3H6v18h12V8z"/><path d="M12 12.5v5M9.5 15h5"/></svg></span>
+          <span class="choice-tx"><strong>Submit a new request</strong><span>Report a problem or ask us for help.</span></span>
+          <span class="choice-arrow" aria-hidden="true">&rarr;</span>
+        </button>
+        <a class="choice" id="c-existing" href="https://jmgsystems.atlassian.net/servicedesk/customer/user/requests?statuses=open">
+          <span class="choice-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"><path d="M4 6h16M4 12h16M4 18h10"/></svg></span>
+          <span class="choice-tx"><strong>View my open requests</strong><span>Check the status of tickets you&rsquo;ve already submitted.</span></span>
+          <span class="choice-arrow" aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="mock-sep">After choosing &ldquo;Submit a new request&rdquo;</div>
+    <div id="intro">
+      <button type="button" class="backlink" id="to-chooser">&larr; Back</button>
+      <span class="eyebrow-mono">Support Request</span>
+      <h1>Tell us what's going wrong</h1>
+      <p class="lede">A few quick details and we'll open a ticket for you. You'll get an email confirmation and a link to track it &mdash; no account needed.</p>
+      <p class="whoami" id="whoami"><span class="dot"></span> Signing you in&hellip;</p>
+    </div>
+
+    <form id="f" novalidate>
+      <div class="field">
+        <label for="subject">Subject</label>
+        <input type="text" id="subject" required maxlength="120" autocomplete="off" placeholder="e.g. Outlook crashes when I open a calendar invite" aria-describedby="err-subject" />
+        <div class="err" id="err-subject" aria-live="polite"></div>
+      </div>
+
+      <div class="field">
+        <label for="body">What's happening?</label>
+        <textarea id="body" required placeholder="Describe the problem in your own words — the exact error message, when it started, and what you were doing." aria-describedby="err-body"></textarea>
+        <div class="err" id="err-body" aria-live="polite"></div>
+        <div class="help">The exact error text and what you were doing help us fix it faster.</div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="impact">Is this stopping you?</label>
+          <select id="impact" required>
+            <option value="team-down">Yes — the whole team / office is down</option>
+            <option value="blocked" selected>Yes — just me, and I'm blocked</option>
+            <option value="workaround">Somewhat — I can work around it</option>
+            <option value="minor">No — not urgent</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="started">When did it start?</label>
+          <select id="started">
+            <option value="">— choose —</option>
+            <option value="Just now">Just now</option>
+            <option value="Earlier today">Earlier today</option>
+            <option value="This week">This week</option>
+            <option value="Ongoing / recurring">Ongoing / recurring</option>
+            <option value="Not sure">Not sure</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="category">Type of issue <span class="opt">— best guess</span></label>
+          <select id="category">
+            <option>General Request</option><option>Email</option><option>Printing</option>
+            <option>Network</option><option>Connectivity</option><option>Hardware</option>
+            <option>Software</option><option>Account/Access</option><option>Security</option>
+            <option>LOB Application</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Screenshots or files <span class="opt">— optional</span></label>
+        <div class="dropzone" id="dropzone" role="button" tabindex="0" aria-label="Add files">
+          <svg class="dz-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 16V6m0 0l-4 4m4-4l4 4M5 18h14"/></svg>
+          <strong>Drop files here</strong>, paste a screenshot, or <span class="browse">browse</span>
+          <input type="file" id="file" multiple hidden accept=".png,.jpg,.jpeg,.gif,.webp,.bmp,.heic,.tif,.tiff,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.csv,.txt,.rtf,image/*,application/pdf" />
+          <ul id="filelist"></ul>
+        </div>
+        <div class="err" id="err-file" aria-live="polite"></div>
+        <div class="help">Images, PDF, and Office documents &middot; up to 10&nbsp;MB each &middot; 5 files max.</div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="name">Your name</label>
+          <input type="text" id="name" autocomplete="name" placeholder="Your name" aria-describedby="err-name" />
+          <div class="err" id="err-name" aria-live="polite"></div>
+        </div>
+        <div class="field">
+          <label for="phone">Phone <span class="opt">— optional</span></label>
+          <input type="tel" id="phone" autocomplete="tel" placeholder="Best number to reach you" aria-describedby="err-phone" />
+          <div class="err" id="err-phone" aria-live="polite"></div>
+        </div>
+      </div>
+      <div class="field">
+        <label for="email">Email <span class="opt">— from your sign-in</span></label>
+        <input type="email" id="email" readonly placeholder="loading…" />
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="submit" id="submit"><span class="spinner"></span><span id="btnlabel">Open my ticket</span></button>
+        <span class="reassure">Takes about 20 seconds.</span>
+      </div>
+    </form>
+
+    <div class="mock-sep">After submitting</div>
+    <!-- success -->
+    <div id="success">
+      <div class="seal">
+        <div class="confetti" id="confetti"></div>
+        <svg viewBox="0 0 120 120" aria-hidden="true">
+          <rect class="frame" x="18" y="18" width="84" height="84"></rect>
+          <path class="check" d="M40 62 L55 77 L83 45"></path>
+        </svg>
+      </div>
+      <h2 id="s-head">Ticket is open</h2>
+      <div class="tk" id="s-tk"></div>
+      <p>You'll get an <b>email confirmation</b> shortly, and JMG support will follow up as soon as possible.</p>
+      <p class="afterhours" id="s-afterhours">It's currently outside our usual support hours (<b>Mon–Fri, 9–5</b>). Your ticket is safely logged — we'll pick it up as soon as we're back.</p>
+      <a class="track" id="s-track" href="#" rel="noopener noreferrer" target="_blank" style="display:none;">Track your ticket</a>
+      <button type="button" class="again" id="s-again">Open another ticket</button>
+    </div>
+
+    <div id="fail"><h2>Couldn't open the ticket</h2><p id="fail-msg"></p></div>
+  </main>
+
+  <footer>A technology consulting company &middot; Est. 2011</footer>
+
+  <script>
+    const $=(id)=>document.getElementById(id);
+    // show every state stacked for review
+    $('chooser').style.display=''; $('intro').style.display=''; $('f').style.display='';
+    $('success').classList.add('show');
+    const email='admin@hindmanfuneralhomes.com';
+    for(const id of ['whoami','whoami2']){const w=$(id); w.replaceChildren(Object.assign(document.createElement('span'),{className:'dot'}),document.createTextNode('Signed in as '),Object.assign(document.createElement('b'),{textContent:email}));}
+    $('email').value=email; $('name').value='System Administrator';
+    $('subject').value='Outlook keeps crashing when I open a calendar invite';
+    $('body').value='Since this morning, Outlook closes itself every time I click a meeting invite. I have to reopen it each time.';
+    $('s-head').textContent='Ticket IT-1042 is open'; $('s-tk').textContent='IT-1042';
+    const tr=$('s-track'); tr.style.display='inline-block'; tr.href='#';
+    const tg=$('themetoggle');
+    tg.addEventListener('click',()=>{const d=document.body.classList.toggle('dark'); tg.textContent='Theme \u00b7 '+(d?'Dark':'Light');});
+    $('f').addEventListener('submit',(e)=>e.preventDefault());
+  </script>
+</body>
+</html>
