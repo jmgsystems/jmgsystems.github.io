@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>jmg.systems — front page (design reference)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-1: #0B1320;      /* page background (dark) */
+    --bg-2: #0F1B2C;      /* section surface */
+    --bg-3: #1E3A5F;      /* blueprint-700 — footer band */
+    --fg-1: #E8EEF6;      /* primary text on dark */
+    --fg-2: #9FB0C5;      /* secondary text on dark */
+    --fg-3: #6A7A90;      /* tertiary / meta */
+    --rule: #253449;      /* hairlines on dark */
+    --rule-2: #3A6FA0;    /* blueprint-500 — strong rules, grid, sparks */
+    --bp-300: #9FB9D4;    /* muted captions on dark */
+    --accent-2: #E1A956;  /* ochre (dark-mode variant) — rare signal only */
+    --paper: #F3EFE6;
+    --ink: #0F1B2C;
+    --font-serif: 'Fraunces', Georgia, serif;
+    --font-sans: 'IBM Plex Sans', system-ui, sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+    --ease: cubic-bezier(0.2, 0, 0, 1);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg-1); color: var(--fg-1); font-family: var(--font-sans); }
+  a { color: inherit; }
+
+  @keyframes gridDrift { from { background-position: 0 0; } to { background-position: 48px 48px; } }
+  @keyframes scanY { 0% { top: 0; opacity: 0; } 8% { opacity: .7; } 92% { opacity: .7; } 100% { top: 100%; opacity: 0; } }
+  @keyframes blinkDot { 0%, 60% { opacity: 1; } 70%, 100% { opacity: .15; } }
+  @keyframes riseIn { from { transform: translateY(28px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  @keyframes heroFade { to { opacity: 0.25; transform: scale(0.96); } }
+  /* rotating principles: 4 phrases + repeat of first; row height 44px */
+  @keyframes tickUp44 {
+    0%, 17%   { transform: translateY(0); }
+    25%, 42%  { transform: translateY(-44px); }
+    50%, 67%  { transform: translateY(-88px); }
+    75%, 92%  { transform: translateY(-132px); }
+    100%      { transform: translateY(-176px); }
+  }
+
+  .mono-label {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  /* ============ Sticky depth-field hero ============ */
+  .hero {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .plx { transition: transform 0.4s var(--ease); will-change: transform; }
+  .hero-grid-layer { position: absolute; inset: -60px; pointer-events: none; }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(to right,  rgba(58,111,160,0.11) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(58,111,160,0.11) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+  #spark-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .ghost-mark { position: absolute; right: -130px; top: 14vh; width: 660px; opacity: 0.07; pointer-events: none; }
+  .chip {
+    position: absolute;
+    border: 1px solid var(--rule);
+    background: var(--bg-2);
+    padding: 10px 16px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--bp-300);
+    pointer-events: none;
+  }
+  .chip.ochre { color: var(--accent-2); text-transform: none; }
+
+  header.site {
+    position: relative; z-index: 2;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 22px 56px;
+  }
+  header.site nav { display: flex; gap: 32px; align-items: center; }
+  header.site nav a {
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--fg-2); font-weight: 500;
+    text-decoration: none; transition: color 120ms var(--ease);
+  }
+  header.site nav a:hover { color: var(--fg-1); }
+
+  .hero-content {
+    position: relative; z-index: 1; flex: 1;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 0 56px;
+    animation: heroFade linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 100vh;
+  }
+  .hero-content h1 {
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-size: clamp(48px, 7.5vw, 96px);
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    margin: 0 0 40px;
+    max-width: 900px;
+    text-wrap: pretty;
+    animation: riseIn 0.7s var(--ease) 0.1s both;
+  }
+  .principles { display: flex; align-items: center; gap: 20px; animation: riseIn 0.7s var(--ease) 0.22s both; }
+  .principles .dash { width: 40px; height: 1px; background: var(--rule-2); }
+  .ticker { display: inline-block; height: 44px; overflow: hidden; }
+  .ticker-stack { display: block; animation: tickUp44 14s var(--ease) infinite; }
+  .ticker-stack span {
+    display: flex; align-items: center; height: 44px;
+    font-family: var(--font-serif); font-style: italic; font-size: 26px; color: var(--bp-300);
+  }
+  .hero-strip {
+    position: relative; z-index: 2;
+    display: flex; justify-content: space-between;
+    padding: 20px 56px; border-top: 1px solid var(--rule);
+  }
+
+  /* ============ Scroll-story sections ============ */
+  .story {
+    position: relative; z-index: 2;
+    background: var(--bg-2);
+    border-top: 1px solid var(--rule-2);
+    overflow: hidden;
+  }
+  .scanline {
+    position: absolute; left: 0; right: 0; height: 1px;
+    background: rgba(58,111,160,0.35);
+    animation: scanY 14s linear infinite;
+    pointer-events: none;
+  }
+  .band { position: relative; display: grid; border-bottom: 1px solid var(--rule); }
+  .band-label { padding: 56px 40px; border-right: 1px solid var(--rule); }
+  .band-label .mono-label { color: var(--accent-2); }
+  .services { grid-template-columns: 200px 1fr 1fr 1fr; }
+  .services .cell { padding: 56px 32px; border-right: 1px solid var(--rule); }
+  .services .cell:last-child { border-right: 0; }
+  .services h3 { font-family: var(--font-serif); font-weight: 400; font-size: 24px; margin: 0 0 12px; }
+  .services p { font-size: 15px; line-height: 1.55; color: var(--fg-2); margin: 0; }
+  .notes { grid-template-columns: 200px 1fr; }
+  .notes .rows { padding: 24px 40px; }
+  .notes a {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 16px 0; border-bottom: 1px solid var(--rule); text-decoration: none;
+    transition: color 120ms var(--ease);
+  }
+  .notes a:last-child { border-bottom: 0; }
+  .notes a .title { font-family: var(--font-serif); font-size: 22px; color: var(--fg-1); }
+  .notes a:hover .title { color: var(--bp-300); }
+  .notes a .date { font-family: var(--font-mono); font-size: 12px; color: var(--fg-3); }
+  .contact { display: flex; align-items: center; justify-content: space-between; padding: 72px 56px; position: relative; }
+  .contact a.email {
+    font-family: var(--font-mono); font-size: clamp(20px, 3vw, 36px); color: var(--fg-1);
+    text-decoration: underline; text-decoration-thickness: 1px;
+    text-underline-offset: 8px; text-decoration-color: var(--accent-2);
+    transition: color 120ms var(--ease);
+  }
+  .contact a.email:hover { color: var(--bp-300); }
+  footer.site {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 56px; background: var(--bg-3);
+  }
+</style>
+</head>
+<body>
+
+  <!-- ===== Sticky depth-field hero (pointer parallax scene) ===== -->
+  <div class="hero" data-plx-scene>
+
+    <div class="hero-grid-layer plx" data-plx="16">
+      <div class="hero-grid"></div>
+      <canvas id="spark-canvas"></canvas>
+    </div>
+
+    <img class="ghost-mark plx" data-plx="42" src="../assets/mark-inverse.png" alt="">
+    <div class="chip plx" data-plx="66" style="top:26vh;right:180px">Entra · baseline v4</div>
+    <div class="chip plx ochre" data-plx="88" style="bottom:32vh;right:380px">v26.2 → v26.3</div>
+    <div class="chip plx" data-plx="54" style="top:56vh;right:110px">Backups · green</div>
+
+    <header class="site">
+      <img src="../assets/logo-inverse.png" alt="jmg.systems" style="height:30px;display:block">
+      <nav>
+        <a href="#services">01 Services</a>
+        <a href="#notes">02 Notes</a>
+        <a href="#contact">03 Contact</a>
+      </nav>
+    </header>
+
+    <div class="hero-content">
+      <div class="plx" data-plx="8">
+        <div class="mono-label" style="color:var(--bp-300);margin-bottom:28px;animation:riseIn 0.6s var(--ease) both">Serving Western and Central PA</div>
+        <h1>Your small business, continually improved.</h1>
+        <div class="principles">
+          <span class="dash"></span>
+          <span class="ticker">
+            <span class="ticker-stack">
+              <span>The least technology.</span>
+              <span>Continually improved.</span>
+              <span>In partnership.</span>
+              <span>Saving you time.</span>
+              <span>The least technology.</span>
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-strip">
+      <span class="mono-label" style="color:var(--fg-3)">Est. 2011</span>
+      <span class="mono-label" style="color:var(--fg-3);animation:blinkDot 2.6s infinite">Scroll ↓</span>
+    </div>
+  </div>
+
+  <!-- ===== Scroll-story sections (slide over the receding hero) ===== -->
+  <div class="story">
+    <div class="scanline"></div>
+
+    <div class="band services" id="services">
+      <div class="band-label"><span class="mono-label">01<br>Services</span></div>
+      <div class="cell">
+        <h3>Lorem ipsum</h3>
+        <p>Dolor sit amet, consectetur adipiscing elit sed non mauris vitae.</p>
+      </div>
+      <div class="cell">
+        <h3>Consectetur</h3>
+        <p>Erat consequat auctor eu in elit, class aptent taciti sociosqu.</p>
+      </div>
+      <div class="cell">
+        <h3>Adipiscing</h3>
+        <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices.</p>
+      </div>
+    </div>
+
+    <div class="band notes" id="notes">
+      <div class="band-label"><span class="mono-label">02<br>Notes</span></div>
+      <div class="rows">
+        <a href="#notes"><span class="title">Lorem ipsum dolor sit amet consectetur</span><span class="date">2026-06</span></a>
+        <a href="#notes"><span class="title">Sed non mauris vitae erat consequat</span><span class="date">2026-04</span></a>
+        <a href="#notes"><span class="title">Class aptent taciti sociosqu ad litora</span><span class="date">2026-02</span></a>
+      </div>
+    </div>
+
+    <div class="contact" id="contact">
+      <span class="mono-label" style="color:var(--accent-2)">03 · Contact</span>
+      <a class="email" href="mailto:lorem@ipsum.dolor">lorem@ipsum.dolor</a>
+    </div>
+
+    <footer class="site">
+      <img src="../assets/logo-inverse.png" alt="jmg.systems" style="height:20px;display:block">
+      <span class="mono-label" style="font-size:11px;color:var(--bp-300)">Serving Western and Central PA · Rev v26.3</span>
+    </footer>
+  </div>
+
+<script>
+// ===== Pointer parallax =====
+// Scene: [data-plx-scene]. Layers: [data-plx="depth"] — higher depth = moves more.
+// Layers translate OPPOSITE the cursor by depth * normalized offset; 0.4s ease smooths it.
+document.querySelectorAll('[data-plx-scene]').forEach((scene) => {
+  scene.addEventListener('pointermove', (e) => {
+    const r = scene.getBoundingClientRect();
+    const dx = (e.clientX - r.left) / r.width - 0.5;
+    const dy = (e.clientY - r.top) / r.height - 0.5;
+    scene.querySelectorAll('[data-plx]').forEach((el) => {
+      const d = parseFloat(el.getAttribute('data-plx')) || 0;
+      el.style.transform = 'translate(' + (-dx * d).toFixed(1) + 'px,' + (-dy * d).toFixed(1) + 'px)';
+    });
+  });
+  scene.addEventListener('pointerleave', () => {
+    scene.querySelectorAll('[data-plx]').forEach((el) => { el.style.transform = 'translate(0,0)'; });
+  });
+});
+
+// ===== Grid sparks =====
+// 2 sparks travel along the 24px grid lines: 1px fading tail + 2.5px sharp head.
+// Slow (0.35–0.75 px/frame). ~12% chance a spark is ochre; the rest blueprint blue.
+(function () {
+  const cv = document.getElementById('spark-canvas');
+  const ctx = cv.getContext('2d');
+  let W, H, COLS, ROWS;
+  const CELL = 24;
+  function size() {
+    W = cv.width = cv.offsetWidth;
+    H = cv.height = cv.offsetHeight;
+    COLS = Math.floor(W / CELL); ROWS = Math.floor(H / CELL);
+  }
+  size();
+  window.addEventListener('resize', size);
+  function mk() {
+    const horiz = Math.random() < 0.5;
+    return {
+      horiz,
+      line: (horiz ? (1 + Math.floor(Math.random() * (ROWS - 1))) : (1 + Math.floor(Math.random() * (COLS - 1)))) * CELL,
+      pos: Math.random() * (horiz ? W : H),
+      dir: Math.random() < 0.5 ? 1 : -1,
+      v: 0.35 + Math.random() * 0.4,
+      ochre: Math.random() < 0.12,
+      len: 26 + Math.random() * 34
+    };
+  }
+  const sparks = [mk(), mk()];
+  (function step() {
+    ctx.clearRect(0, 0, W, H);
+    for (let i = 0; i < sparks.length; i++) {
+      const s = sparks[i];
+      s.pos += s.v * s.dir;
+      if (s.pos < -s.len || s.pos > (s.horiz ? W : H) + s.len) { sparks[i] = mk(); continue; }
+      const col = s.ochre ? '225,169,86' : '125,166,211';
+      const tail = ctx.createLinearGradient(
+        s.horiz ? s.pos - s.dir * s.len : s.line, s.horiz ? s.line : s.pos - s.dir * s.len,
+        s.horiz ? s.pos : s.line, s.horiz ? s.line : s.pos
+      );
+      tail.addColorStop(0, 'rgba(' + col + ',0)');
+      tail.addColorStop(1, 'rgba(' + col + ',0.55)');
+      ctx.strokeStyle = tail;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      if (s.horiz) { ctx.moveTo(s.pos - s.dir * s.len, s.line + 0.5); ctx.lineTo(s.pos, s.line + 0.5); }
+      else { ctx.moveTo(s.line + 0.5, s.pos - s.dir * s.len); ctx.lineTo(s.line + 0.5, s.pos); }
+      ctx.stroke();
+      ctx.fillStyle = 'rgba(' + col + ',0.95)';
+      if (s.horiz) ctx.fillRect(s.pos - 1, s.line - 1, 2.5, 2.5);
+      else ctx.fillRect(s.line - 1, s.pos - 1, 2.5, 2.5);
+    }
+    requestAnimationFrame(step);
+  })();
+})();
+
+// Fallback for browsers without CSS scroll-driven animations (Safari/Firefox):
+// fade + scale the hero content from document scroll.
+if (!CSS.supports('animation-timeline: scroll()')) {
+  const hc = document.querySelector('.hero-content');
+  hc.style.animation = 'none';
+  window.addEventListener('scroll', () => {
+    const t = Math.min(1, window.scrollY / window.innerHeight);
+    hc.style.opacity = String(1 - 0.75 * t);
+    hc.style.transform = 'scale(' + (1 - 0.04 * t) + ')';
+  }, { passive: true });
+}
+</script>
+</body>
+</html>

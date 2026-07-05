@@ -1,0 +1,264 @@
+/* ==========================================================================
+   jmg.systems — Design Tokens v2 (LOCKED foundation)
+   Tagline: "The least technology, continually improved."
+   Palette: Blueprint blue family on warm paper. One signal accent (ochre).
+   Light + dark mode; all text/bg pairs WCAG AA (4.5:1).
+   ========================================================================== */
+
+/* fonts self-hosted since 2026-07-05 — see /assets/fonts/fonts.css (loaded from HTML) */
+
+/* NOTE on fonts
+   Display/editorial: Fraunces (SIL OFL) — variable, opsz 9–144, humanist + slightly industrial.
+     Chosen over Source Serif for more warmth + character suited to "partnership" pillar.
+     (Earlier v1 brief called Fraunces out as overused; v2 brief opens typography and
+      Fraunces reads warmer than Source Serif. Flagged — swap to Source Serif 4 or
+      Newsreader if you want it cooler.)
+   Body/UI: IBM Plex Sans (SIL OFL).
+   Mono:    IBM Plex Mono (SIL OFL).
+*/
+
+:root {
+  /* =========================================================== COLOR v2 */
+  /* --- Blueprint core (60% of use) ----------------------------------- */
+  --paper:        #F3EFE6;   /* warm paper background — partnership warmth */
+  --paper-deep:   #E8E1D1;   /* card surface on paper                      */
+  --ink:          #0F1B2C;   /* deep navy-ink, not black — "blueprint ink" */
+  --ink-soft:     #253449;
+
+  /* --- Blueprint blue family (primary brand, 30%) -------------------- */
+  --blueprint-900: #0F1B2C;  /* deepest — same as ink                     */
+  --blueprint-700: #1E3A5F;  /* PRIMARY BRAND BLUE — blueprint-line, mark */
+  --blueprint-500: #3A6FA0;  /* secondary; charts, rules, active          */
+  --blueprint-300: #9FB9D4;  /* muted; borders on dark, captions on blue  */
+  --blueprint-100: #D9E4F0;  /* tinted surface; callouts, quiet highlights*/
+
+  /* --- Signal accent (10%, earned) ----------------------------------- */
+  --ochre:        #C88A2C;   /* warm ochre — used for small marks + links */
+
+  /* --- Semantic --- */
+  --ok:     #2F6B4E;         /* moss-green, AA on paper                   */
+  --warn:   #B07A1A;          /* deeper ochre for warnings                 */
+  --err:    #8A2A1A;          /* brick                                     */
+
+  /* --- Neutrals --- */
+  --slate:  #5E6A7A;
+  --stone:  #B8B0A0;          /* on paper for 3rd-level ui                 */
+
+  /* --- Semantic aliases (light mode default) ------------------------- */
+  --bg-1: var(--paper);
+  --bg-2: var(--paper-deep);
+  --bg-3: var(--blueprint-700);    /* inverted / footer surface           */
+  --bg-tint: var(--blueprint-100);
+
+  --fg-1: var(--ink);
+  --fg-2: var(--slate);
+  --fg-3: #8B8578;
+  --fg-inv: var(--paper);
+
+  --accent:       var(--blueprint-700);   /* primary brand color          */
+  --accent-2:     var(--ochre);            /* signal/links                 */
+  --accent-soft:  rgba(30, 58, 95, 0.08);
+
+  --rule:   var(--ink);
+  --rule-2: var(--blueprint-300);          /* secondary rules on paper    */
+
+  /* Print system — Pantone approximations ----------------------------- */
+  /* blueprint-700 ≈ Pantone 534 C     CMYK 92/70/35/20                  */
+  /* ochre         ≈ Pantone 7563 C    CMYK 15/45/92/0                   */
+  /* paper         ≈ uncoated stock, ~Pantone Warm Gray 1 C              */
+  /* ink/900       ≈ Pantone 532 C     CMYK 90/75/50/60                  */
+
+  /* =========================================================== TYPE v2 */
+  --font-serif: 'Fraunces', 'Iowan Old Style', 'Charter', Georgia, serif;
+  --font-sans:  'IBM Plex Sans', -apple-system, 'Segoe UI', system-ui, sans-serif;
+  --font-mono:  'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* 9-level scale, ratio 1.250 (minor third) rebased at 16px */
+  --t-9: 76px;   /* display-hero                    */
+  --t-8: 60px;   /* display                          */
+  --t-7: 48px;   /* h1 large                         */
+  --t-6: 36px;   /* h1                               */
+  --t-5: 28px;   /* h2                               */
+  --t-4: 22px;   /* h3                               */
+  --t-3: 18px;   /* h4 / lead                        */
+  --t-2: 16px;   /* body                             */
+  --t-1: 14px;   /* small                            */
+  --t-0: 12px;   /* micro / mono labels              */
+
+  --lh-display: 1.05;
+  --lh-heading: 1.18;
+  --lh-body:    1.55;
+  --lh-mono:    1.5;
+
+  --w-light: 300;
+  --w-regular: 400;
+  --w-medium: 500;
+  --w-semi: 600;
+
+  --tr-display: -0.02em;
+  --tr-body: 0;
+  --tr-caps: 0.08em;
+  --tr-wide: 0.12em;    /* for JMG SYSTEMS wordmark usage */
+
+  /* =========================================================== SPACE */
+  --s-0: 0;
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+  --s-8: 72px;
+  --s-9: 112px;
+
+  --measure: 680px;
+  --content: 1200px;
+  --margin-d: 72px;
+  --margin-t: 32px;
+  --margin-m: 16px;
+  --gutter: 24px;
+  --baseline: 8px;
+
+  /* =========================================================== RADII */
+  --r-0: 0;          /* default — square everywhere                     */
+  --r-1: 2px;        /* inputs, optical correction                      */
+  --r-full: 9999px;  /* avatars only                                    */
+
+  /* =========================================================== SHADOW */
+  --shadow-lift: 0 1px 0 var(--ink);
+  --shadow-none: 0 0 0 transparent;
+
+  /* =========================================================== MOTION */
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --d-fast: 120ms;
+  --d-med: 220ms;
+  --d-slow: 360ms;
+}
+
+/* =================================================== DARK MODE ==== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-1: #0B1320;            /* deeper than blueprint-900 */
+    --bg-2: #121C2D;
+    --bg-3: var(--blueprint-700);
+    --bg-tint: #182842;
+    --fg-1: #E8EEF6;
+    --fg-2: #9FB0C5;
+    --fg-3: #6A7A90;
+    --fg-inv: var(--ink);
+    --accent: #7DA6D3;           /* lighter for AA on dark */
+    --accent-2: #E1A956;
+    --rule: #253449;
+    --rule-2: #3A6FA0;
+  }
+}
+
+.theme-dark {
+  --bg-1: #0B1320;
+  --bg-2: #121C2D;
+  --bg-3: var(--blueprint-700);
+  --bg-tint: #182842;
+  --fg-1: #E8EEF6;
+  --fg-2: #9FB0C5;
+  --fg-3: #6A7A90;
+  --fg-inv: var(--ink);
+  --accent: #7DA6D3;
+  --accent-2: #E1A956;
+  --rule: #253449;
+  --rule-2: #3A6FA0;
+}
+
+/* =================================================== BASE ========= */
+html {
+  background: var(--bg-1);
+  color: var(--fg-1);
+  font-family: var(--font-sans);
+  font-size: var(--t-2);
+  line-height: var(--lh-body);
+  font-weight: var(--w-regular);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: 'kern' 1, 'liga' 1, 'ss01' 1;
+}
+body { margin: 0; background: var(--bg-1); color: var(--fg-1); }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  font-weight: var(--w-regular);
+  color: var(--fg-1);
+  letter-spacing: var(--tr-display);
+  text-wrap: pretty;
+  margin: 0 0 var(--s-4);
+}
+h1 { font-size: var(--t-6); line-height: var(--lh-heading); }
+h2 { font-size: var(--t-5); line-height: var(--lh-heading); }
+h3 { font-size: var(--t-4); line-height: var(--lh-heading); font-weight: var(--w-medium); }
+h4 { font-size: var(--t-3); line-height: var(--lh-heading); font-family: var(--font-sans); font-weight: var(--w-semi); letter-spacing: 0; }
+
+.display-xl { font-family: var(--font-serif); font-size: var(--t-9); line-height: var(--lh-display); letter-spacing: var(--tr-display); margin: 0; text-wrap: pretty; }
+.display-l  { font-family: var(--font-serif); font-size: var(--t-8); line-height: var(--lh-display); letter-spacing: var(--tr-display); margin: 0; text-wrap: pretty; }
+.display    { font-family: var(--font-serif); font-size: var(--t-7); line-height: var(--lh-display); letter-spacing: var(--tr-display); margin: 0; text-wrap: pretty; }
+
+p {
+  font-family: var(--font-sans);
+  font-size: var(--t-2);
+  line-height: var(--lh-body);
+  color: var(--fg-1);
+  margin: 0 0 var(--s-4);
+  max-width: var(--measure);
+  text-wrap: pretty;
+}
+small, .small { font-size: var(--t-1); color: var(--fg-2); }
+.micro, .eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--t-0);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps);
+  color: var(--fg-2);
+  font-weight: var(--w-medium);
+}
+
+code, pre, kbd, samp, .mono { font-family: var(--font-mono); font-size: 0.95em; }
+code { background: var(--bg-2); padding: 2px 6px; }
+pre { background: var(--bg-2); padding: var(--s-5); overflow-x: auto; line-height: var(--lh-mono); }
+pre code { background: transparent; padding: 0; }
+
+a {
+  color: var(--fg-1);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--accent-2);   /* ochre-tinted underline */
+  transition: color var(--d-fast) var(--ease);
+}
+a:hover { color: var(--accent); }
+
+hr { border: 0; border-top: 1px solid var(--rule); margin: var(--s-7) 0; }
+::selection { background: var(--accent); color: var(--paper); }
+
+/* blueprint grid background utility — for hero + feature sections */
+.blueprint-grid {
+  background-image:
+    linear-gradient(to right,  rgba(30,58,95,0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(30,58,95,0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Utility */
+.fg-1 { color: var(--fg-1); }
+.fg-2 { color: var(--fg-2); }
+.bg-1 { background: var(--bg-1); }
+.bg-2 { background: var(--bg-2); }
+.bg-3 { background: var(--bg-3); color: var(--fg-inv); }
+.accent { color: var(--accent); }
+.accent-2 { color: var(--accent-2); }
+
+.mono-label {
+  font-family: var(--font-mono);
+  font-size: var(--t-0);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps);
+  font-weight: var(--w-medium);
+}
